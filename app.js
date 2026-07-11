@@ -144,21 +144,20 @@ function updateCommandScript() {
     `# Selected Modules: ${state.selectedTools.join(', ')}`,
     `# ========================================================`,
     ``,
-    `echo "[+] Initializing custom security workspace directory..."`,
-    `mkdir -p hasan-toolkit && cd hasan-toolkit`,
+    `echo "[+] Initializing custom security installation process..."`,
     ``
   ];
 
   state.selectedTools.forEach(toolName => {
     const tool = TOOLS_DATA.find(t => t.name === toolName);
     if (tool) {
-      scriptLines.push(`echo "[+] Cloning ${tool.name} recursive submodules..."`);
-      scriptLines.push(`git clone --recursive ${tool.url}.git`);
+      scriptLines.push(`# Installing ${tool.name} (${tool.subcategory})`);
+      scriptLines.push(tool.installCmd);
       scriptLines.push(``);
     }
   });
 
-  scriptLines.push(`echo "[+] Custom installation script execution completed successfully!"`);
+  scriptLines.push(`echo "[+] Custom installation process completed successfully!"`);
   codeOutput.textContent = scriptLines.join('\n');
 
   // Render selected tool badges
@@ -217,17 +216,7 @@ function openInfoModal(toolName) {
   
   // Render tags
   modalToolTags.innerHTML = tool.tags.map(t => `<span class="tag">${t}</span>`).join("");
-  
-  // Custom setup instructions depending on the tool tags
-  let installCmd = `git clone --recursive ${tool.url}.git`;
-  if (tool.tags.includes("Python")) {
-    installCmd += `\ncd ${tool.name}\npip install -r requirements.txt`;
-  } else if (tool.tags.includes("Ruby")) {
-    installCmd += `\ncd ${tool.name}\nbundle install`;
-  } else if (tool.tags.includes("Java")) {
-    installCmd += `\n# Requires Java SDK installed\ncd ${tool.name}\nmvn clean install`;
-  }
-  modalToolInstallCmd.textContent = installCmd;
+  modalToolInstallCmd.textContent = tool.installCmd;
 
   infoModal.classList.add("active");
 }
