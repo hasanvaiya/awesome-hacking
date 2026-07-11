@@ -21,6 +21,15 @@ const copyBtn = document.getElementById("copy-btn");
 const panelCloseBtn = document.getElementById("panel-close-btn");
 const toastContainer = document.getElementById("toast-container");
 
+// Modal References
+const infoModal = document.getElementById("info-modal");
+const modalCloseBtn = document.getElementById("modal-close-btn");
+const modalToolName = document.getElementById("modal-tool-name");
+const modalToolSubcategory = document.getElementById("modal-tool-subcategory");
+const modalToolDescription = document.getElementById("modal-tool-description");
+const modalToolTags = document.getElementById("modal-tool-tags");
+const modalToolInstallCmd = document.getElementById("modal-tool-install-cmd");
+
 // Load local storage items
 function loadStorage() {
   const savedFavorites = localStorage.getItem("ah_favorites");
@@ -130,13 +139,13 @@ function updateCommandScript() {
   let scriptLines = [
     `#!/bin/bash`,
     `# ========================================================`,
-    `# Awesome Hacking Toolkit Custom Installer Script`,
+    `# Hasan's Security Toolkit Custom Installer Script`,
     `# Generated: ${new Date().toLocaleDateString()}`,
     `# Selected Modules: ${state.selectedTools.join(', ')}`,
     `# ========================================================`,
     ``,
     `echo "[+] Initializing custom security workspace directory..."`,
-    `mkdir -p awesome-toolkit && cd awesome-toolkit`,
+    `mkdir -p hasan-toolkit && cd hasan-toolkit`,
     ``
   ];
 
@@ -195,6 +204,53 @@ function toggleFavorite(toolName) {
   saveStorage();
   renderSidebar();
   renderTools();
+}
+
+// Open Info Modal with setup details
+function openInfoModal(toolName) {
+  const tool = TOOLS_DATA.find(t => t.name === toolName);
+  if (!tool) return;
+
+  modalToolName.textContent = tool.name;
+  modalToolSubcategory.textContent = tool.subcategory;
+  modalToolDescription.textContent = tool.description;
+  
+  // Render tags
+  modalToolTags.innerHTML = tool.tags.map(t => `<span class="tag">${t}</span>`).join("");
+  
+  // Custom setup instructions depending on the tool tags
+  let installCmd = `git clone --recursive ${tool.url}.git`;
+  if (tool.tags.includes("Python")) {
+    installCmd += `\ncd ${tool.name}\npip install -r requirements.txt`;
+  } else if (tool.tags.includes("Ruby")) {
+    installCmd += `\ncd ${tool.name}\nbundle install`;
+  } else if (tool.tags.includes("Java")) {
+    installCmd += `\n# Requires Java SDK installed\ncd ${tool.name}\nmvn clean install`;
+  }
+  modalToolInstallCmd.textContent = installCmd;
+
+  infoModal.classList.add("active");
+}
+
+// Add 3D card tilt effect event listeners
+function apply3DTilt(card) {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left; // x coordinate inside element
+    const y = e.clientY - rect.top;  // y coordinate inside element
+    
+    // Normalize coordinates around zero
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateY = ((x - centerX) / centerX) * 12; // max tilt 12 degrees
+    const rotateX = ((centerY - y) / centerY) * 12;
+    
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+  });
 }
 
 // Render Tool Cards
@@ -258,22 +314,33 @@ function renderTools() {
       <p class="tool-description">${tool.description}</p>
       <div class="tag-list">${tagsHtml}</div>
       <div class="card-actions">
-        <a href="${tool.url}" target="_blank" class="card-btn btn-primary">
-          <span>GitHub Repo</span> ↗
-        </a>
+        <button class="card-btn btn-primary btn-details">
+          <span>Local Setup</span>
+        </button>
         <button class="card-btn btn-secondary ${isAdded ? 'added' : ''}">
           ${isAdded ? '✓ Selected' : '+ Add to Script'}
         </button>
       </div>
     `;
 
+    // Apply 3D Tilt
+    apply3DTilt(card);
+
     // Click handler for favorite button
-    card.querySelector(".favorite-btn").addEventListener("click", () => {
+    card.querySelector(".favorite-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
       toggleFavorite(tool.name);
     });
 
+    // Click handler for details button
+    card.querySelector(".btn-details").addEventListener("click", (e) => {
+      e.stopPropagation();
+      openInfoModal(tool.name);
+    });
+
     // Click handler for script installer action
-    card.querySelector(".btn-secondary").addEventListener("click", () => {
+    card.querySelector(".btn-secondary").addEventListener("click", (e) => {
+      e.stopPropagation();
       toggleToolSelection(tool.name);
     });
 
@@ -300,6 +367,17 @@ copyBtn.addEventListener("click", () => {
 
 panelCloseBtn.addEventListener("click", () => {
   builderPanel.classList.remove("active");
+});
+
+modalCloseBtn.addEventListener("click", () => {
+  infoModal.classList.remove("active");
+});
+
+// Close modal on background overlay click
+infoModal.addEventListener("click", (e) => {
+  if (e.target === infoModal) {
+    infoModal.classList.remove("active");
+  }
 });
 
 // App Startup
