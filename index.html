@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Awesome Hacking Toolset Directory</title>
-  <meta name="description" content="A curated directory and custom installer builder for penetration testing, security auditing, digital forensics, and malware analysis tools.">
+  <title>Hasan's Security Hub & Toolkit Directory</title>
+  <meta name="description" content="A premium curated directory and custom installer builder for security auditing, digital forensics, and malware analysis tools. Developed by Hasan.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,13 +12,13 @@
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="brand">
-        <span class="brand-icon">☣️</span>
-        <span class="brand-title">Awesome Hacking</span>
+        <span class="brand-icon">⚡</span>
+        <span class="brand-title">Hasan's Hub</span>
       </div>
       <nav class="sidebar-menu" id="sidebar-menu">
-        <div class="menu-section-title">Categories</div>
+        <div class="menu-section-title">Navigation</div>
         <a class="menu-item active" data-category="all">
-          <span class="menu-item-icon">⚡</span>
+          <span class="menu-item-icon">🌐</span>
           <span>All Modules</span>
           <span class="menu-item-count" id="count-all">0</span>
         </a>
@@ -27,8 +27,11 @@
           <span>Bookmarks</span>
           <span class="menu-item-count" id="count-favorites">0</span>
         </a>
-        <!-- Categories populated by JS -->
       </nav>
+      <div class="sidebar-footer">
+        <p>Developer: <strong>Hasan</strong></p>
+        <span class="version-tag">v2.0 (3D Edition)</span>
+      </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -36,7 +39,7 @@
       <header class="top-bar">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" id="search-input" placeholder="Search security tools, libraries, submodules...">
+          <input type="text" class="search-input" id="search-input" placeholder="Search modules, tags, utilities...">
         </div>
         <div class="quick-stats">
           <div class="stat-item">
@@ -44,24 +47,20 @@
             <span class="stat-label">Total Tools</span>
           </div>
           <div class="stat-item">
-            <span class="stat-value" id="stat-total-categories">7</span>
-            <span class="stat-label">Categories</span>
-          </div>
-          <div class="stat-item">
             <span class="stat-value" id="stat-active-installers">0</span>
-            <span class="stat-label">In Installer</span>
+            <span class="stat-label">Selected</span>
           </div>
         </div>
       </header>
 
       <section class="dashboard-body">
         <div class="dashboard-header">
-          <h1 class="dashboard-title" id="view-title">All Security Modules</h1>
-          <p class="dashboard-subtitle" id="view-description">Explore and download curated, professional tools for penetration testers, security researchers, and developers.</p>
+          <h1 class="dashboard-title" id="view-title">Security Modules Directory</h1>
+          <p class="dashboard-subtitle" id="view-description">Curated reference catalog and automated installer script generator. Built for security researchers and developers.</p>
         </div>
 
         <div class="tools-grid" id="tools-grid">
-          <!-- Card rendering dynamically handled by app.js -->
+          <!-- Dynamically populated -->
         </div>
       </section>
     </main>
@@ -72,16 +71,14 @@
     <div class="panel-header">
       <div class="panel-title">
         <span>🛠️</span>
-        <span>Custom Shell Script Builder</span>
+        <span>Custom Script Builder</span>
       </div>
       <button class="panel-close-btn" id="panel-close-btn">✕</button>
     </div>
     <div class="panel-body">
       <div class="builder-details">
-        <p class="builder-info">Select the security modules above to bundle them into a unified automated clone script.</p>
-        <div class="selected-tools-badges" id="selected-badges-container">
-          <!-- Badges dynamically rendered here -->
-        </div>
+        <p class="builder-info">Select tools from the directory to compile a custom command-line installation script.</p>
+        <div class="selected-tools-badges" id="selected-badges-container"></div>
       </div>
       <div class="command-output-box">
         <div class="code-container" id="code-output"># Select tools to generate command</div>
@@ -89,6 +86,28 @@
       </div>
     </div>
   </section>
+
+  <!-- Interactive Info Modal (Replaces external GitHub links) -->
+  <div class="modal-overlay" id="info-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn">✕</button>
+      <div class="modal-header">
+        <h2 id="modal-tool-name">Tool Name</h2>
+        <span id="modal-tool-subcategory">Subcategory</span>
+      </div>
+      <div class="modal-body">
+        <p id="modal-tool-description">Detailed description goes here...</p>
+        <div class="modal-section">
+          <h3>Tags / Technologies</h3>
+          <div class="tag-list" id="modal-tool-tags"></div>
+        </div>
+        <div class="modal-section">
+          <h3>Local Setup Instructions</h3>
+          <div class="code-container" id="modal-tool-install-cmd">git clone --recursive ...</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast notifications -->
   <div class="toast-container" id="toast-container"></div>
