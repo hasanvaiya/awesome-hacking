@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awesome Hacking Toolset Directory</title>
+  <meta name="description" content="A curated directory and custom installer builder for penetration testing, security auditing, digital forensics, and malware analysis tools.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">☣️</span>
+        <span class="brand-title">Awesome Hacking</span>
+      </div>
+      <nav class="sidebar-menu" id="sidebar-menu">
+        <div class="menu-section-title">Categories</div>
+        <a class="menu-item active" data-category="all">
+          <span class="menu-item-icon">⚡</span>
+          <span>All Modules</span>
+          <span class="menu-item-count" id="count-all">0</span>
+        </a>
+        <a class="menu-item" data-category="favorites">
+          <span class="menu-item-icon">⭐</span>
+          <span>Bookmarks</span>
+          <span class="menu-item-count" id="count-favorites">0</span>
+        </a>
+        <!-- Categories populated by JS -->
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="search-input" placeholder="Search security tools, libraries, submodules...">
+        </div>
+        <div class="quick-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="stat-total-tools">0</span>
+            <span class="stat-label">Total Tools</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="stat-total-categories">7</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="stat-active-installers">0</span>
+            <span class="stat-label">In Installer</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="dashboard-body">
+        <div class="dashboard-header">
+          <h1 class="dashboard-title" id="view-title">All Security Modules</h1>
+          <p class="dashboard-subtitle" id="view-description">Explore and download curated, professional tools for penetration testers, security researchers, and developers.</p>
+        </div>
+
+        <div class="tools-grid" id="tools-grid">
+          <!-- Card rendering dynamically handled by app.js -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Command Builder Panel -->
+  <section class="command-builder-panel" id="builder-panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        <span>🛠️</span>
+        <span>Custom Shell Script Builder</span>
+      </div>
+      <button class="panel-close-btn" id="panel-close-btn">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="builder-details">
+        <p class="builder-info">Select the security modules above to bundle them into a unified automated clone script.</p>
+        <div class="selected-tools-badges" id="selected-badges-container">
+          <!-- Badges dynamically rendered here -->
+        </div>
+      </div>
+      <div class="command-output-box">
+        <div class="code-container" id="code-output"># Select tools to generate command</div>
+        <button class="copy-floating-btn" id="copy-btn">Copy Script</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Load Scripts -->
+  <script src="tools-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
